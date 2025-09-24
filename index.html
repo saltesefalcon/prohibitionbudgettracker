@@ -92,7 +92,7 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>Beacon Weekly Food Budget Tracker</h1>
+    <h1>prohibition Weekly Food Budget Tracker</h1>
     <div class="sub">(Monday → Sunday + Totals) with live per-day budgets &amp; over/under.</div>
 
     <div class="panel">
@@ -219,9 +219,9 @@
 /* ---------------- Firebase init ---------------- */
 const firebaseConfig = {
   apiKey: "AIzaSyDl7NhJHjm1wp0LwIWN-mtCDh_WD6I-MRA",
-  authDomain: "beacon-budget-tracker.firebaseapp.com",
-  projectId: "beacon-budget-tracker",
-  storageBucket: "beacon-budget-tracker.firebasestorage.app",
+  authDomain: "prohibition-budget-tracker.firebaseapp.com",
+  projectId: "prohibition-budget-tracker",
+  storageBucket: "prohibition-budget-tracker.firebasestorage.app",
   messagingSenderId: "331061494606",
   appId: "1:331061494606:web:8edb403b944002ed80141f"
 };
@@ -656,9 +656,9 @@ function openPurchasesEditor(lineKey,dayKey){
 }
 
 /* ---------------- Persistence ----------------- */
-function persist(){ localStorage.setItem("beacon_budget_draft", JSON.stringify(state)); }
+function persist(){ localStorage.setItem("prohibition_budget_draft", JSON.stringify(state)); }
 function load(){
-  const raw=localStorage.getItem("beacon_budget_draft"); if(!raw) return;
+  const raw=localStorage.getItem("prohibition_budget_draft"); if(!raw) return;
   try{
     const obj=JSON.parse(raw); if(!obj) return;
     const base=blankWeek();
@@ -729,20 +729,20 @@ document.getElementById("newWeek").onclick=()=>{
 };
 document.getElementById("saveLocal").onclick=()=>{
   const key=prompt("Save draft as:", state.meta.weekOf || weekInput.value || "week"); if(!key) return;
-  localStorage.setItem("beacon_budget_"+key, JSON.stringify(state)); alert("Saved locally!");
+  localStorage.setItem("prohibition_budget_"+key, JSON.stringify(state)); alert("Saved locally!");
 };
 document.getElementById("loadLocal").onclick=()=>{
-  const items=Object.keys(localStorage).filter(k=>k.startsWith("beacon_budget_"));
+  const items=Object.keys(localStorage).filter(k=>k.startsWith("prohibition_budget_"));
   if(!items.length) return alert("No local saves yet.");
-  const key=prompt("Enter name:\n"+items.map(k=>k.replace("beacon_budget_","")).join("\n")); if(!key) return;
-  const raw=localStorage.getItem("beacon_budget_"+key); if(!raw) return alert("Not found.");
+  const key=prompt("Enter name:\n"+items.map(k=>k.replace("prohibition_budget_","")).join("\n")); if(!key) return;
+  const raw=localStorage.getItem("prohibition_budget_"+key); if(!raw) return alert("Not found.");
   const obj=JSON.parse(raw); const base=blankWeek();
   state={...state,...obj}; state.data=Object.assign(base,obj.data||{}); state.details=obj.details||{};
   recalc(); persist(); scheduleSave();
 };
 document.getElementById("exportJSON").onclick=()=>{
   const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
-  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=(state.meta.weekOf||"beacon_week")+"_budget.json"; a.click(); URL.revokeObjectURL(a.href);
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=(state.meta.weekOf||"prohibition_week")+"_budget.json"; a.click(); URL.revokeObjectURL(a.href);
 };
 document.getElementById("importFile").addEventListener("change",(e)=>{
   const f=e.target.files?.[0]; if(!f) return;
@@ -764,7 +764,7 @@ document.getElementById("exportExcel").onclick=()=>{
     rows.push([label[line.key], state.data[line.key].mon,state.data[line.key].tue,state.data[line.key].wed,state.data[line.key].thu,state.data[line.key].fri,state.data[line.key].sat,state.data[line.key].sun,state.data[line.key].total ]);
   }
   const ws=XLSX.utils.aoa_to_sheet(rows); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,"Week");
-  XLSX.writeFile(wb,(state.meta.weekOf||"beacon_week")+"_budget.xlsx");
+  XLSX.writeFile(wb,(state.meta.weekOf||"prohibition_week")+"_budget.xlsx");
 };
 function thisMondayISO(){ const d=new Date(); const mon=startOfWeekMonday(d); return toISO(mon); }
 function onWeekChange(raw){
