@@ -225,7 +225,12 @@ const firebaseConfig = {
   messagingSenderId: "10076440936",
   appId: "1:10076440936:web:6bb1426eefc7d6b9abeedd"
 };
-const OWNER_UID = "vv2z07G4g5ZG8wsLgJQGkQFxFaf2";
+// support multiple owners
+const OWNER_UIDS = [
+  "421n7qw70fZcOp4scC9dmykW7XX2",   // first UID
+  "s9U52Vg2fzYKNeAnkqSKoK1Xn1i1"    // second UID
+];
+
 firebase.initializeApp(firebaseConfig);
 const db  = firebase.firestore();
 
